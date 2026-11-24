@@ -1,0 +1,16 @@
+rules_version = '2';
+
+// 로그인 없이 "비밀 링크(긴 랜덤 ID)"로 구분하는 간단한 규칙입니다.
+// 컬렉션 목록 조회는 막고, ID를 알고 있는 경로만 읽고 쓸 수 있어요.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 공주님 개인 데이터 (퀘스트·아이디어·레벨/골드)
+    match /private/{id}/{col}/{doc} {
+      allow read, write: if true;
+    }
+    // 남자친구와 공유하는 집안일
+    match /shared/{id}/{col}/{doc} {
+      allow read, write: if true;
+    }
+  }
+}
